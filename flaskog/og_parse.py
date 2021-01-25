@@ -19,20 +19,17 @@ def get_canonical(page_url: str) -> str:
     canonical = soup.find("link", rel="canonical")
     if canonical:
         value = canonical["href"]
-        #logging.debug(f"found using rel: {value}")
         return value
 
     canonical = soup.find("meta", property="og:url")
     if canonical:
         value = canonical["content"]
-        #logging.debug(f"found using og:url: {value}")
         return value
 
     return page_url
 
 
 def scrape_og_tags(url, url_id):
-    #logging.debug(f"start scraping {url}")
     record = OGP.query.filter_by(url_id=url_id).first()
     if not record:
         return
@@ -57,4 +54,3 @@ def scrape_og_tags(url, url_id):
     content["updated_time"] = str(datetime.now())
     record.json = json.dumps(content, default=str)
     db.session.commit()
-    #logging.debug(f"saving {url}")
