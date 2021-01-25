@@ -15,21 +15,23 @@ def get_canonical(page_url: str) -> str:
     if response.status_code is not 200:
         return page_url
 
-    soup = BeautifulSoup(response.content, 'html.parser')
+    return parse_canonical(page_url, response.content)
+
+
+def parse_canonical(page_url: str, content: bytes):
+    soup = BeautifulSoup(content, 'html.parser')
     canonical = soup.find("link", rel="canonical")
     if canonical:
         value = canonical["href"]
         return value
-
     canonical = soup.find("meta", property="og:url")
     if canonical:
         value = canonical["content"]
         return value
-
     return page_url
 
 
-def scrape_og_tags(url, url_id):
+def scrape_og_tags(url: str, url_id: int):
     record = OGP.query.filter_by(url_id=url_id).first()
     if not record:
         return
