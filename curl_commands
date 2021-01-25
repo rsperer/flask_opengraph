@@ -1,0 +1,12 @@
+#!/bin/bash
+curl -X DELETE ruth.sperer.hiring.keywee.io/stories
+curl -X POST ruth.sperer.hiring.keywee.io/stories?url=http://ogp.me/
+printf "\n"
+curl -X GET ruth.sperer.hiring.keywee.io/stories/1
+printf "\n"
+curl -X GET ruth.sperer.hiring.keywee.io/stories/1
+printf "\n"
+sleep 1
+curl -X GET ruth.sperer.hiring.keywee.io/stories/1
+printf "\n"
+
