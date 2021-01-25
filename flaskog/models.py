@@ -1,10 +1,5 @@
 from flaskog import db
-from sqlalchemy import Column, BigInteger, Text
-
-
-class URL(db.Model):
-    url = Column(Text, primary_key=True)
-    canonical_url = Column(Text, nullable=False)
+from sqlalchemy import Column, BigInteger, Text, ForeignKey
 
 
 class Canonical(db.Model):
@@ -12,6 +7,11 @@ class Canonical(db.Model):
     canonical_url = Column(Text, unique=True, nullable=False)
 
 
+class URL(db.Model):
+    url = Column(Text, primary_key=True)
+    canonical_url = Column(Text, ForeignKey("canonical.canonical_url"), nullable=False)
+
+
 class OGP(db.Model):
-    url_id = Column(BigInteger, primary_key=True)
+    url_id = Column(BigInteger, ForeignKey("canonical.id"), primary_key=True)
     json = Column(Text, nullable=False)
