@@ -10,7 +10,7 @@ from flaskog.og_parse import scrape_og_tags
 
 @app.route("/stories", methods=["POST"])
 def add_or_get_canonical_url_id():
-    input_url = request.args.get("some_url", None)
+    input_url = request.args.get("url", None)
     existing_url_id = db.session.query(Canonical.id).select_from(URL)\
         .join(Canonical).filter(URL.url == input_url).first()
     if existing_url_id:
