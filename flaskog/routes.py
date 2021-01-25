@@ -1,6 +1,5 @@
-import threading
 from flask import request
-from flaskog import app
+from flaskog import app, executor
 from flaskog.models import *
 from flaskog.og_parse import *
 import json
@@ -35,6 +34,6 @@ def scrape_url_id(url_id: int):
     json_response = json.dumps(content, default=str)
     db.session.add(OGP(url_id=url_id, json=json_response))
     db.session.commit()
-    threading.Thread(target=scrape_og_tags, args=(url.canonical_url, url_id,)).start()
+    executor.submit(scrape_og_tags, url.canonical_url, url_id)
     return json_response
 
