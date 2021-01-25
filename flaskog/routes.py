@@ -37,3 +37,13 @@ def scrape_url_id(url_id: int):
     executor.submit(scrape_og_tags, url.canonical_url, url_id)
     return json_response
 
+
+# this is not a safe call and should not be part of production code
+@app.route("/stories", methods=["DELETE"])
+def delete_all():
+    OGP.query.delete()
+    URL.query.delete()
+    Canonical.query.delete()
+    db.session.commit()
+    return '', 204
+
